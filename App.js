@@ -1,15 +1,24 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
-import MapView from "react-native-maps";
+import { StyleSheet, View, Image } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 
 export default function App() {
+  //Coordenadaspara o MapView
   const regiaoInicialMapa = {
-    latitude: -10,
-    longitude: -55,
+    //São Paulo
+    latitude: -23.533773,
+    longitude: -46.65529,
 
-    // Define o zoom do mapa. Quanto menor o valor, maior o zoom do mapa.
     latitudeDelta: 40,
     longitudeDelta: 40,
+  };
+
+  /* Coordenadas para o Marker que será aplicado ao MapView */
+  const localizacao = {
+    latitude: -33.867886,
+    longitude: -63.987,
+    latitudeDelta: 10,
+    longitudeDelta: 10,
   };
 
   return (
@@ -21,7 +30,11 @@ export default function App() {
           style={estilos.mapa}
           initialRegion={regiaoInicialMapa}
           userInterfaceStyle="dark"
-        />
+        >
+          <Marker coordinate={localizacao} draggable>
+            <Image source={require("./assets/ghost.png")} />
+          </Marker>
+        </MapView>
       </View>
     </>
   );
