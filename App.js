@@ -1,8 +1,16 @@
 import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 export default function App() {
+  const [localizacao, setLocalizacao] = useState({
+    latitude: -33.867886,
+    longitude: -63.987,
+    latitudeDelta: 10,
+    longitudeDelta: 10,
+  });
+
   //Coordenadaspara o MapView
   const regiaoInicialMapa = {
     //São Paulo
@@ -13,12 +21,15 @@ export default function App() {
     longitudeDelta: 40,
   };
 
-  /* Coordenadas para o Marker que será aplicado ao MapView */
-  const localizacao = {
-    latitude: -33.867886,
-    longitude: -63.987,
-    latitudeDelta: 10,
-    longitudeDelta: 10,
+  //nessa função estamos pegando os dados da latitude e longitude dentro do usestate e alterando para a latitude/longitude de onde a pessoa clicar/selecionar no mapa
+  const marcarLocal = (event) => {
+    setLocalizacao({
+      ...localizacao, //usado para manter os deltas
+
+      //obtendo novos valores a partir do evento de pressionar
+      latitude: event.nativeEvent.coordinate.latitude,
+      longitude: event.nativeEvent.coordinate.longitude,
+    });
   };
 
   return (
@@ -26,7 +37,8 @@ export default function App() {
       <StatusBar />
       <View style={estilos.container}>
         <MapView
-          mapType="hybrid"
+          onPress={marcarLocal}
+          mapType="standard"
           style={estilos.mapa}
           initialRegion={regiaoInicialMapa}
           userInterfaceStyle="dark"
