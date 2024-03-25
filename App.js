@@ -29,13 +29,8 @@ export default function App() {
 
   console.log(minhaLocalizacao);
 
-  //state com a lat/long inicial que sera alterada dentro da função "marcarLocal".
-  const [localizacao, setLocalizacao] = useState({
-    latitude: -33.867886,
-    longitude: -63.987,
-    latitudeDelta: 10,
-    longitudeDelta: 10,
-  });
+  //este state tem a finalidade de determinar a posição no mapview junto com o Marker. Inicialmente é nulo pois o usuário ainda não acionou o botão da sua localização
+  const [localizacao, setLocalizacao] = useState(null);
 
   //Coordenadaspara o MapView
   const regiaoInicialMapa = {
@@ -72,9 +67,7 @@ export default function App() {
             initialRegion={regiaoInicialMapa}
             userInterfaceStyle="dark"
           >
-            <Marker coordinate={localizacao} draggable>
-              <Image source={require("./assets/ghost.png")} />
-            </Marker>
+            {localizacao && <Marker coordinate={localizacao} />}
           </MapView>
         </View>
       </View>
