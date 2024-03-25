@@ -45,11 +45,11 @@ export default function App() {
   //nessa função estamos pegando os dados da latitude e longitude dentro do usestate e alterando para a latitude/longitude de onde a pessoa clicar/selecionar no mapa
   const marcarLocal = (event) => {
     setLocalizacao({
-      ...localizacao, //usado para manter os deltas
-
-      //obtendo novos valores a partir do evento de pressionar
-      latitude: event.nativeEvent.coordinate.latitude,
-      longitude: event.nativeEvent.coordinate.longitude,
+      //obtendo novos valores a partir da geolocalização da posição do usuário
+      latitude: minhaLocalizacao.coords.latitude,
+      longitude: minhaLocalizacao.coords.longitude,
+      latitudeDelta: 0.02,
+      longitudeDelta: 0.01,
     });
   };
 
@@ -64,7 +64,7 @@ export default function App() {
           <MapView
             mapType="standard"
             style={estilos.mapa}
-            initialRegion={regiaoInicialMapa}
+            region={localizacao ?? regiaoInicialMapa}
             userInterfaceStyle="dark"
           >
             {localizacao && <Marker coordinate={localizacao} />}
